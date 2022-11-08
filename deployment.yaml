@@ -3,16 +3,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test-xmutil-app
-  namespace: test
+  name: xmutil-app
 spec:
   selector:
     matchLabels:
-      name: test-xmutil-backend
+      name: xmutil-backend
   template:
     metadata:
       labels:
-        name: test-xmutil-backend
+        name: xmutil-backend
     spec:
       containers:
         - name: xmutil
@@ -50,33 +49,33 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: test-xmutil-service
-  namespace: test
+  xmutil-service
 spec:
+  type: NodePort
   ports:
     - name: http
       port: 80
       protocol: TCP
-      targetPort: 80
+      targetPort: 8080
+      nodePort: 31222
   selector:
-    name: test-xmutil-backend
+    name: xmutil-backend
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: test-xmutil-ingress
-  namespace: test
+  name: xmutil-ingress
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
-  - host: kv260.xmutil
+  - host: kv260.xmutil.ninox
     http:
       paths:
         - path: /
           pathType: Prefix
           backend:
             service:
-              name: test-xmutil-service
+              name: xmutil-service
               port:
                 number: 80
