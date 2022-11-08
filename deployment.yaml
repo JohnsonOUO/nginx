@@ -66,8 +66,10 @@ kind: Ingress
 metadata:
   name: xmutil-ingress
   annotations:
+    k8s.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
+  ingressClassName: nginx
   rules:
   - host: kv260.xmutil.ninox
     http:
